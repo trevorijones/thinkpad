@@ -1,0 +1,42 @@
+Using trackpoint on Gnome on wayland.
+
+At first I tryied to configure X to tweak as usual my trackpoint emulation.
+This time I just find myself stupid when I figured out that my display manager was actually Wayland, a X replacement.
+
+...
+
+I switched back to X and finally my trackpoint was working as expected.
+
+
+Sensitivity tweak:
+echo 220 >  /sys/bus/serio/devices/serio2/sensitivity
+
+Now let's configure this shit to work at boot time.
+I copied the line above in /etc/rc.local then rebooted... f*** not working
+Figure out in /var/log/syslog
+===
+May 27 19:47:03 bytor rc.local[714]: /etc/rc.local: 14: /etc/rc.local: cannot create /sys/bus/serio/devices/serio2/sensitivity: Permission denied
+May 27 19:47:03 bytor systemd[1]: rc-local.service: control process exited, code=exited status=2
+May 27 19:47:03 bytor systemd[1]: Failed to start /etc/rc.local Compatibility.
+May 27 19:47:03 bytor systemd[1]: Unit rc-local.service entered failed state.
+===
+
+Ok, tried to do echo to another regular file and it was ok.
+At the time this script is running, this sys file is just not created yet.
+
+Enter udev... (as root)
+
+touch /etc/udev/rules.d/trackpoint.rules
+
+SUBSYSTEM=="serio", DRIVERS=="psmouse", WAIT_FOR="/sys/devices/platform/i8042/serio1/serio2/sensitivity", ATTR{sensitivity}="220", ATTR{speed}="110"
+
+(Update) As WAIT_FOR is deprecated, on newer systems you can use DEVPATH instead:
+
+SUBSYSTEM=="serio", DRIVERS=="psmouse", DEVPATH="/sys/devices/platform/i8042/serio1/serio2", ATTR{sensitivity}="220", ATTR{speed}="110"     
+
+Save the file and either reboot or run the commands above:
+sudo udevadm control --reload-rules
+sudo udevadm trigger 
+
+Yeah!
+
