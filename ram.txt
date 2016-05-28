@@ -1,0 +1,26 @@
+lshw 
+Well, no much info about RAM chipset
+
+dmidecode -t 17
+More info,
+     Memory Device
+     Array Handle: 0x0005
+     Error Information Handle: Not Provided
+     Total Width: 64 bits
+     Data Width: 64 bits
+     Size: 4096 MB
+     Form Factor: SODIMM
+     Set: None
+     Locator: ChannelB-DIMM0
+     Bank Locator: BANK 2
+     Type: DDR3
+     Type Detail: Synchronous
+     Speed: 1333 MHz
+     Manufacturer: Hynix/Hyundai
+     Serial Number: 08622BE3
+     Asset Tag: 9876543210
+     Part Number: HMT351S6CFR8C-H9
+     Rank: Unknown
+
+Goggle for that => Found 
+     Part Number: HMT351S6CFR8C-H9
