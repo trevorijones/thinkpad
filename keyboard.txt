@@ -1,0 +1,6 @@
+Mapping caps lock to another Ctrl
+=================================
+This is nice when using keybindings with ctrl-A (such screen) as caps lock is just on the left of A.
+
+/usr/bin/setxkbmap -option "ctrl:nocaps"
+
