@@ -25,8 +25,8 @@ SUBSYSTEM=="serio", DRIVERS=="psmouse", DEVPATH="/sys/devices/platform/i8042/ser
 On some systems use WAIT_FOR="/sys/devices/platform/i8042/serio1/sensitivity" instead of DEVPATH
 
 Save the file and either reboot or run the commands above:
-sudo udevadm control --reload-rules
-sudo udevadm trigger 
+* sudo udevadm control --reload-rules
+* sudo udevadm trigger 
 
 Yeah!
 
