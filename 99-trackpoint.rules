@@ -1,0 +1,4 @@
+ACTION=="add" \
+, SUBSYSTEM=="serio" \
+, DEVPATH=="/devices/platform/i8042/serio1" \
+, ATTR{sensitivity}="70"

@@ -18,15 +18,35 @@ Check the path to sys device file of track point
 
 Create the udev rule:
 
-touch /etc/udev/rules.d/trackpoint.rules
+```
+touch /etc/udev/rules.d/99-trackpoint.rules
+```
 
-SUBSYSTEM=="serio", DRIVERS=="psmouse", DEVPATH="/sys/devices/platform/i8042/serio1", ATTR{sensitivity}="220", ATTR{speed}="110"
+To know exactly which rule files are applied and in which order, use the `test` udev command:
 
-On some systems use WAIT_FOR="/sys/devices/platform/i8042/serio1/sensitivity" instead of DEVPATH
+```
+udevadm test -a add  /sys/devices/platform/i8042/serio1
+```
 
-Save the file and either reboot or run the commands above:
-* sudo udevadm control --reload-rules
-* sudo udevadm trigger 
+And to know which attributes are available, use the udevadm info command:
+```
+udevadm info -ap /sys/devices/platform/i8042/serio1
+```
+
+Now here is the `99-trackpoint.rules`:
+
+```
+ACTION=="add" \
+, SUBSYSTEM=="serio" \
+, DEVPATH=="/devices/platform/i8042/serio1" \
+, ATTR{sensitivity}="70" \
+, ATTR{resolution}="50"
+```
+
+You can test with the above test command, load and trigger the add event:
+
+* sudo udevadm control --reload
+* sudo udevadm trigger --action add
 
 Yeah!
 
